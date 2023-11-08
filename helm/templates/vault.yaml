@@ -1,0 +1,7 @@
+{{- if .Values.vaultEnabled }}
+        - name: vault
+          image: hashicorp/vault:latest
+          env:
+            - name: VAULT_ADDR
+              value: http://localhost:8200
+{{- end }}

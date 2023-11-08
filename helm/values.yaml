@@ -1,0 +1,15 @@
+replicaCount:
+  default: 1
+  description: "Number of Nginx replicas in the pod (must be between 1 and 10)"
+  type: int
+  validators:
+    min: 1
+    max: 10
+webpageContent:
+  default: "Hello World"
+  description: "Content of the Nginx web page"
+  type: string
+vaultEnabled:
+  default: false
+  description: "Enable Hashicorp Vault sidecar container (true/false)"
+  type: bool

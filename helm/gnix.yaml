@@ -1,0 +1,55 @@
+apiVersion: v2
+name: nginx-deployment
+description: A Helm chart for deploying an Nginx web server with customizable replicas and content
+version: 1.0.0
+appVersion: 1.21.1
+
+values:
+  replicaCount: 1
+  webpageContent: "Hello World"
+  vaultEnabled: false
+
+---
+# Deployment configuration
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+        - name: nginx
+          image: nginx:latest
+          ports:
+            - containerPort: 80
+          env:
+            - name: WEBPAGE_CONTENT
+              value: {{ .Values.webpageContent }}
+          {{- if .Values.vaultEnabled }}
+          - name: vault
+            image: hashicorp/vault:latest
+            env:
+              - name: VAULT_ADDR
+                value: http://localhost:8200
+          {{- end }}
+---
+# Service configuration
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-service
+spec:
+  selector:
+    app: nginx
+  ports:
+    - name: http
+      port: 80
+      targetPort: 80

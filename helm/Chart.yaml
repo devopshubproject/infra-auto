@@ -1,0 +1,5 @@
+apiVersion: v2
+name: nginx-vault-helm
+description: A Helm chart for deploying an Nginx web server with customizable replicas, content and an optional Hashicorp Vault sidecar container.
+version: 1.0.0
+appVersion: 1.21.1
